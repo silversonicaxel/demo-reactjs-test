@@ -1,0 +1,540 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Testing in React.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<!-- presentazione -->
+				<section>
+					<h1>Testing</h1>
+					<h2>in React.js</h2>
+					<p>
+						<small>By <a href="http://alessandrorabitti.com">Alessandro Rabitti</a> / <a href="http://twitter.com/silversonicaxel">@silversonicaxel</a></small>
+					</p>
+				</section>
+
+				<!-- agenda -->
+				<section>
+					<h2>Agenda</h2>
+
+					<p class="fragment">Enzyme</p>
+					<p class="fragment">Mocha + Chai + Sinon</p>
+					<!--<p class="fragment">CucumberJs</p>-->
+				</section>
+
+				<!-- Enzyme -->
+				<section>
+					<section>
+						<h2>Enzyme</h2>
+						<p>React testing utility</p>
+						<small>https://github.com/airbnb/enzyme or http://airbnb.io/enzyme/</small>
+					</section>
+				</section>
+
+				<!-- Mocha + Chai + Sinon -->
+				<section>
+					<section>
+						<h2>Mocha</h2>
+						<p>Javascript testing framework</p>
+						<p>It runs on Node.js or on the browser</p>
+						<p>Based on assertion libraries</p>
+						<small>https://mochajs.org/</small>
+					</section>
+
+					<section>
+						<h2>Chai</h2>
+						<p>Assertion library</p>
+						<p>Compatible with Node.js or browser</p>
+						<small>http://chaijs.com/</small>
+					</section>
+
+					<section>
+						<h2>Sinon</h2>
+						<p>Spies, Stubs, Mocks</p>
+						<small>http://sinonjs.org/</small>
+					</section>
+				</section>
+
+				<!-- CucumberJs -->
+				<!--<section>
+					<h2>CucumberJs</h2>
+					<p>Tool for automated tests written in human readable language</p>
+					<small>https://cucumber.io/</small>
+				</section>-->
+
+				<!-- Examples -->
+				<section>
+					<h2>Examples</h2>
+				</section>
+
+				<!-- Setup examples -->
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Setup libraries
+							```
+							import chai from "chai";
+							import chaiAsPromised from "chai-as-promised";
+							import sinonChai from "sinon-chai";
+							import sinon from "sinon";
+							import jsdom from "jsdom";
+							import "babel-polyfill";
+							import "./symbol-iterator-polyfill";
+
+							chai.use(sinonChai);
+							chai.use(chaiAsPromised);
+
+							global.sinon = sinon;
+							global.expect = chai.expect;
+
+							global.document = jsdom.jsdom();
+							global.window = document.defaultView;
+							global.navigator = global.window.navigator;
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```
+							import jsdom from "jsdom";
+							global.document = jsdom.jsdom();
+							global.window = document.defaultView;
+							global.navigator = global.window.navigator;
+							```
+							<i>jsdom</i> is a library to provide an HTML DOM to nodejs
+						</script>
+					</section>
+				</section>
+
+				<!-- Setup examples -->
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Setup node script
+							```
+							cross-env NODE_ENV=test
+							cross-env NODE_PATH=./app
+							mocha
+							--compilers js:babel-register
+							--require 'app/tests/support/setup.mocha.js'
+							--recursive 'app/tests/**/*.test.js'
+
+							```
+						</script>
+					</section>
+				</section>
+
+				<!-- Example 1 -->
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Mocha & Chai
+							```
+							describe("Check testing process", function () {
+							    it("This should pass if true is equal to true", function () {
+							        expect(true).to.equal(true);
+							    });
+							});
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```
+							describe("Check testing process", function () {
+							```
+							<i>describe</i> is a (nestable) test suite that contains test cases - from Mocha
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```
+							it("This should pass if true is equal to true", function () {
+							```
+							<i>it</i> is one of the test cases, part of <i>describe</i> grouping - from Mocha
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```
+							expect(true).to.equal(true);
+							```
+							<i>expect</i> is the chainable language for assertions - from Chai
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```
+							describe("Check testing process", function () {
+							    it("This should pass if true is equal to true", function () {
+							        expect(true).to.equal(true);
+							    });
+							});
+							```
+						</script>
+					</section>
+				</section>
+
+				<!-- Example 2 -->
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Enzyme & Mocha & Chai
+							```
+							import React from "react";
+							import {render, mount} from "enzyme";
+							import Info from "../../shared/components/article/info";
+
+							describe("Article Info", () => {
+							    let info = {
+							        name: "Alessandro Rabitti",
+							        date: 1473225586
+							    };
+
+							    it("Info author is rendered", () => {
+							        const wrapperInfo1 = render(<Info data={info}/>);
+							        expect(wrapperInfo1.find(".article__author__name")).to.have.length(1);
+							        expect(wrapperInfo1.find(".article__author__name").text()).to.equal("Alessandro Rabitti");
+
+							        const wrapperInfo2 = mount(<Info data={info}/>);
+							        expect(wrapperInfo2.props().data.name).to.equal("Alessandro Rabitti");
+							        expect(wrapperInfo2.find(".article__author__name").text()).to.equal("Alessandro Rabitti");
+							    });
+
+							    it("Info publication date is rendered", () => {
+							        const wrapperInfo = mount(<Info data={info}/>);
+							        expect(wrapperInfo.find(".article__author__date")).to.have.length(1);
+							        expect(wrapperInfo.find(".article__author__date").text()).to.equal("7 september 2016");
+							        expect(wrapperInfo.contains(<time className="article__author__date" dateTime="2016-09-07T07:19">7 september 2016</time>)).to.equal(true);
+							    });
+							});
+
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```
+							const wrapperInfo1 = render(<Info data={info}/>);
+							```
+							<i>render</i> is a function used to test the static HTML of a component and its children
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```
+							const wrapperInfo = mount(<Info data={info}/>);
+							```
+							<i>mount</i> is a function used to test the a full render, so the component lifecycle (componentDidMount, componentDidUpdate ..)
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```
+							expect(wrapperInfo1.find(".article__author__name").text()).to.equal("Alessandro Rabitti");
+							expect(wrapperInfo2.props().data.name).to.equal("Alessandro Rabitti");
+							expect(wrapperInfo.contains(<time className="article__author__date" dateTime="2016-09-07T07:19">7 september 2016</time>)).to.equal(true);
+							```
+							<i>find<i>, <i>props</i> or <i>contains</i> are methods of wrappers returned by rendering functionalities
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```
+							import React from "react";
+							import {render, mount} from "enzyme";
+							import Info from "../../shared/components/article/info";
+
+							describe("Article Info", () => {
+							    let info = {
+							        name: "Alessandro Rabitti",
+							        date: 1473225586
+							    };
+
+							    it("Info author is rendered", () => {
+							        const wrapperInfo1 = render(<Info data={info}/>);
+							        expect(wrapperInfo1.find(".article__author__name")).to.have.length(1);
+							        expect(wrapperInfo1.find(".article__author__name").text()).to.equal("Alessandro Rabitti");
+
+							        const wrapperInfo2 = mount(<Info data={info}/>);
+							        expect(wrapperInfo2.props().data.name).to.equal("Alessandro Rabitti");
+							        expect(wrapperInfo2.find(".article__author__name").text()).to.equal("Alessandro Rabitti");
+							    });
+
+							    it("Info publication date is rendered", () => {
+							        const wrapperInfo = mount(<Info data={info}/>);
+							        expect(wrapperInfo.find(".article__author__date")).to.have.length(1);
+							        expect(wrapperInfo.find(".article__author__date").text()).to.equal("7 september 2016");
+							        expect(wrapperInfo.contains(<time className="article__author__date" dateTime="2016-09-07T07:19">7 september 2016</time>)).to.equal(true);
+							    });
+							});
+
+							```
+						</script>
+					</section>
+				</section>
+
+				<!-- Example 3 -->
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Enzyme & Mocha & Chai
+							```
+							import React from "react";
+							import { render, mount, shallow } from "enzyme";
+							import Tags from "../../shared/components/article/tags";
+							import { Provider } from "react-redux";
+
+							import configureStore from "redux-mock-store";
+							import thunk from "redux-thunk";
+
+							const middlewares = [thunk];
+							const mockStore = configureStore(middlewares);
+
+							describe("Article Tags", () => {
+							    it("Geotag is rendered", () => {
+							        const store = mockStore({tagManagement: {}});
+
+							        let geoTag = new Map();
+							        geoTag.set("id", 1);
+							        geoTag.set("name", "Hilversum");
+							        geoTag.set("url", "/hilversum");
+
+							        let homeTag = null;
+
+							        const wrapperTags1 = render(
+							            <Provider store={store}>
+							                <Tags
+							                    geoTag={geoTag}
+							                    homeTag={homeTag}
+							                />
+							            </Provider>);
+							        expect(wrapperTags1.find(".article__tags")).to.have.length(1);
+							    });
+
+							    it("Geotag and Hometag are rendered", () => {
+							        let userNotification = new Map();
+							        const store = mockStore({tagManagement: {}, userNotification: userNotification});
+
+							        let geoTag = new Map();
+							        geoTag.set("id", 1);
+							        geoTag.set("name", "Hilversum");
+							        geoTag.set("url", "/hilversum");
+
+							        let homeTag = new Map();
+							        homeTag.set("id", 20);
+							        homeTag.set("name", "Sport");
+							        homeTag.set("url", "/sport");
+
+							        const wrapperTagsRender2 = render(
+							            <Provider store={store}>
+							                <Tags
+							                    geoTag={geoTag}
+							                    homeTag={homeTag}
+							                />
+							            </Provider>
+							        );
+
+							        const wrapperTagsMount2 = mount(
+							            <Provider store={store}>
+							                <Tags
+							                    geoTag={geoTag}
+							                    homeTag={homeTag}
+							                />
+							            </Provider>
+							        );
+
+							        const wrapperTagsShallow2 = shallow(
+							            <Provider store={store}>
+							                <Tags
+							                    geoTag={geoTag}
+							                    homeTag={homeTag}
+							                />
+							            </Provider>
+							        );
+							        expect(wrapperTagsRender2.find(".article__tags")).to.have.length(1);
+							        expect(wrapperTagsMount2.containsAnyMatchingElements([<a>Sport</a>, <a>Hilversum</a>])).to.equal(true);
+							        expect(wrapperTagsMount2.find(".article__tags").first().type()).to.equal("div");
+							        expect(wrapperTagsShallow2.props().homeTag).to.equal(homeTag);
+							    });
+							});
+
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```
+							import configureStore from "redux-mock-store";
+							import thunk from "redux-thunk";
+							const middlewares = [thunk];
+							const mockStore = configureStore(middlewares);
+							const store = mockStore({tagManagement: {}});
+							```
+							the <i>store</i> is mocked in order to be able to manage components that are connected to redux state
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```
+							const wrapperTagsShallow2 = shallow(
+			            <Provider store={store}>
+			                <Tags
+			                    geoTag={geoTag}
+			                    homeTag={homeTag}
+			                />
+			            </Provider>
+			        );
+							```
+							<i>shallow</i> is a function used to test the a component as a unit, indipendently by its children behaviour
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```
+							const wrapperTagsShallow2 = shallow(
+			            <Provider store={store}>
+			                <Tags
+			                    geoTag={geoTag}
+			                    homeTag={homeTag}
+			                />
+			            </Provider>
+			        );
+							```
+							the <i>Provider</i> is the component used to feed the component with a valid store
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```
+							import React from "react";
+							import { render, mount, shallow } from "enzyme";
+							import Tags from "../../shared/components/article/tags";
+							import { Provider } from "react-redux";
+
+							import configureStore from "redux-mock-store";
+							import thunk from "redux-thunk";
+
+							const middlewares = [thunk];
+							const mockStore = configureStore(middlewares);
+
+							describe("Article Tags", () => {
+							    it("Geotag is rendered", () => {
+							        const store = mockStore({tagManagement: {}});
+
+							        let geoTag = new Map();
+							        geoTag.set("id", 1);
+							        geoTag.set("name", "Hilversum");
+							        geoTag.set("url", "/hilversum");
+
+							        let homeTag = null;
+
+							        const wrapperTags1 = render(
+							            <Provider store={store}>
+							                <Tags
+							                    geoTag={geoTag}
+							                    homeTag={homeTag}
+							                />
+							            </Provider>);
+							        expect(wrapperTags1.find(".article__tags")).to.have.length(1);
+							    });
+
+							    it("Geotag and Hometag are rendered", () => {
+							        let userNotification = new Map();
+							        const store = mockStore({tagManagement: {}, userNotification: userNotification});
+
+							        let geoTag = new Map();
+							        geoTag.set("id", 1);
+							        geoTag.set("name", "Hilversum");
+							        geoTag.set("url", "/hilversum");
+
+							        let homeTag = new Map();
+							        homeTag.set("id", 20);
+							        homeTag.set("name", "Sport");
+							        homeTag.set("url", "/sport");
+
+							        const wrapperTagsRender2 = render(
+							            <Provider store={store}>
+							                <Tags
+							                    geoTag={geoTag}
+							                    homeTag={homeTag}
+							                />
+							            </Provider>
+							        );
+
+							        const wrapperTagsMount2 = mount(
+							            <Provider store={store}>
+							                <Tags
+							                    geoTag={geoTag}
+							                    homeTag={homeTag}
+							                />
+							            </Provider>
+							        );
+
+							        const wrapperTagsShallow2 = shallow(
+							            <Provider store={store}>
+							                <Tags
+							                    geoTag={geoTag}
+							                    homeTag={homeTag}
+							                />
+							            </Provider>
+							        );
+							        expect(wrapperTagsRender2.find(".article__tags")).to.have.length(1);
+							        expect(wrapperTagsMount2.containsAnyMatchingElements([<a>Sport</a>, <a>Hilversum</a>])).to.equal(true);
+							        expect(wrapperTagsMount2.find(".article__tags").first().type()).to.equal("div");
+							        expect(wrapperTagsShallow2.props().homeTag).to.equal(homeTag);
+							    });
+							});
+
+							```
+						</script>
+					</section>
+
+
+				</section>
+
+				<section>
+					<h2>Make Tests<h2>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
