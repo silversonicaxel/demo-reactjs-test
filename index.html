@@ -30,16 +30,13 @@
 
 					<p class="fragment">Enzyme</p>
 					<p class="fragment">Mocha + Chai + Sinon</p>
-					<!--<p class="fragment">CucumberJs</p>-->
 				</section>
 
 				<!-- Enzyme -->
 				<section>
-					<section>
-						<h2>Enzyme</h2>
-						<p>React testing utility</p>
-						<small>https://github.com/airbnb/enzyme or http://airbnb.io/enzyme/</small>
-					</section>
+					<h2>Enzyme</h2>
+					<p>React testing utility</p>
+					<small>https://github.com/airbnb/enzyme or http://airbnb.io/enzyme/</small>
 				</section>
 
 				<!-- Mocha + Chai + Sinon -->
@@ -65,13 +62,6 @@
 						<small>http://sinonjs.org/</small>
 					</section>
 				</section>
-
-				<!-- CucumberJs -->
-				<!--<section>
-					<h2>CucumberJs</h2>
-					<p>Tool for automated tests written in human readable language</p>
-					<small>https://cucumber.io/</small>
-				</section>-->
 
 				<!-- Examples -->
 				<section>
@@ -105,6 +95,17 @@
 							```
 						</script>
 					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```
+							import "babel-polyfill";
+							import "./symbol-iterator-polyfill";
+							```
+							<i>babel-polyfill</i> is a necessary to write tests with es6
+						</script>
+					</section>
+
 					<section data-markdown>
 						<script type="text/template">
 							```
@@ -130,7 +131,6 @@
 							--compilers js:babel-register
 							--require 'app/tests/support/setup.mocha.js'
 							--recursive 'app/tests/**/*.test.js'
-
 							```
 						</script>
 					</section>
@@ -139,6 +139,7 @@
 				<!-- Example 1 -->
 				<section>
 					<section data-markdown>
+
 						<script type="text/template">
 							## Mocha & Chai
 							```
@@ -209,22 +210,29 @@
 
 							    it("Info author is rendered", () => {
 							        const wrapperInfo1 = render(<Info data={info}/>);
-							        expect(wrapperInfo1.find(".article__author__name")).to.have.length(1);
-							        expect(wrapperInfo1.find(".article__author__name").text()).to.equal("Alessandro Rabitti");
+							        expect(wrapperInfo1.find(".article__author__name"))
+							        	.to.have.length(1);
+							        expect(wrapperInfo1.find(".article__author__name").text())
+							        	.to.equal("Alessandro Rabitti");
 
 							        const wrapperInfo2 = mount(<Info data={info}/>);
-							        expect(wrapperInfo2.props().data.name).to.equal("Alessandro Rabitti");
-							        expect(wrapperInfo2.find(".article__author__name").text()).to.equal("Alessandro Rabitti");
+							        expect(wrapperInfo2.props().data.name)
+							        	.to.equal("Alessandro Rabitti");
+							        expect(wrapperInfo2.find(".article__author__name").text())
+							        	.to.equal("Alessandro Rabitti");
 							    });
 
 							    it("Info publication date is rendered", () => {
 							        const wrapperInfo = mount(<Info data={info}/>);
-							        expect(wrapperInfo.find(".article__author__date")).to.have.length(1);
-							        expect(wrapperInfo.find(".article__author__date").text()).to.equal("7 september 2016");
-							        expect(wrapperInfo.contains(<time className="article__author__date" dateTime="2016-09-07T07:19">7 september 2016</time>)).to.equal(true);
+							        expect(wrapperInfo.find(".article__author__date"))
+							        	.to.have.length(1);
+							        expect(wrapperInfo.find(".article__author__date").text())
+							        	.to.equal("7 september 2016");
+							        expect(wrapperInfo.contains(
+							        	<time className="article__author__date" dateTime="2016-09-07T07:19">7 september 2016</time>
+							        )).to.equal(true);
 							    });
 							});
-
 							```
 						</script>
 					</section>
@@ -254,7 +262,7 @@
 							expect(wrapperInfo2.props().data.name).to.equal("Alessandro Rabitti");
 							expect(wrapperInfo.contains(<time className="article__author__date" dateTime="2016-09-07T07:19">7 september 2016</time>)).to.equal(true);
 							```
-							<i>find<i>, <i>props</i> or <i>contains</i> are methods of wrappers returned by rendering functionalities
+							<i>find</i>, <i>props</i> or <i>contains</i> are methods of wrappers returned by rendering functionalities
 						</script>
 					</section>
 
@@ -273,22 +281,29 @@
 
 							    it("Info author is rendered", () => {
 							        const wrapperInfo1 = render(<Info data={info}/>);
-							        expect(wrapperInfo1.find(".article__author__name")).to.have.length(1);
-							        expect(wrapperInfo1.find(".article__author__name").text()).to.equal("Alessandro Rabitti");
+							        expect(wrapperInfo1.find(".article__author__name"))
+							        	.to.have.length(1);
+							        expect(wrapperInfo1.find(".article__author__name").text())
+							        	.to.equal("Alessandro Rabitti");
 
 							        const wrapperInfo2 = mount(<Info data={info}/>);
-							        expect(wrapperInfo2.props().data.name).to.equal("Alessandro Rabitti");
-							        expect(wrapperInfo2.find(".article__author__name").text()).to.equal("Alessandro Rabitti");
+							        expect(wrapperInfo2.props().data.name)
+							        	.to.equal("Alessandro Rabitti");
+							        expect(wrapperInfo2.find(".article__author__name").text())
+							        	.to.equal("Alessandro Rabitti");
 							    });
 
 							    it("Info publication date is rendered", () => {
 							        const wrapperInfo = mount(<Info data={info}/>);
-							        expect(wrapperInfo.find(".article__author__date")).to.have.length(1);
-							        expect(wrapperInfo.find(".article__author__date").text()).to.equal("7 september 2016");
-							        expect(wrapperInfo.contains(<time className="article__author__date" dateTime="2016-09-07T07:19">7 september 2016</time>)).to.equal(true);
+							        expect(wrapperInfo.find(".article__author__date"))
+							        	.to.have.length(1);
+							        expect(wrapperInfo.find(".article__author__date").text())
+							        	.to.equal("7 september 2016");
+							        expect(wrapperInfo.contains(
+							        	<time className="article__author__date" dateTime="2016-09-07T07:19">7 september 2016</time>
+							        )).to.equal(true);
 							    });
 							});
-
 							```
 						</script>
 					</section>
@@ -312,73 +327,77 @@
 							const mockStore = configureStore(middlewares);
 
 							describe("Article Tags", () => {
-							    it("Geotag is rendered", () => {
-							        const store = mockStore({tagManagement: {}});
+								it("Geotag is rendered", () => {
+									const store = mockStore({tagManagement: {}});
 
-							        let geoTag = new Map();
-							        geoTag.set("id", 1);
-							        geoTag.set("name", "Hilversum");
-							        geoTag.set("url", "/hilversum");
+									let geoTag = new Map();
+									geoTag.set("id", 1);
+									geoTag.set("name", "Hilversum");
+									geoTag.set("url", "/hilversum");
 
-							        let homeTag = null;
+									let homeTag = null;
 
-							        const wrapperTags1 = render(
-							            <Provider store={store}>
-							                <Tags
-							                    geoTag={geoTag}
-							                    homeTag={homeTag}
-							                />
-							            </Provider>);
-							        expect(wrapperTags1.find(".article__tags")).to.have.length(1);
-							    });
+									const wrapperTags1 = render(
+										<Provider store={store}>
+											<Tags
+												geoTag={geoTag}
+												homeTag={homeTag}
+											/>
+										</Provider>);
+									expect(wrapperTags1.find(".article__tags"))
+										.to.have.length(1);
+								});
 
-							    it("Geotag and Hometag are rendered", () => {
-							        let userNotification = new Map();
-							        const store = mockStore({tagManagement: {}, userNotification: userNotification});
+								it("Geotag and Hometag are rendered", () => {
+									let userNotification = new Map();
+									const store = mockStore({tagManagement: {}, userNotification: userNotification});
 
-							        let geoTag = new Map();
-							        geoTag.set("id", 1);
-							        geoTag.set("name", "Hilversum");
-							        geoTag.set("url", "/hilversum");
+									let geoTag = new Map();
+									geoTag.set("id", 1);
+									geoTag.set("name", "Hilversum");
+									geoTag.set("url", "/hilversum");
 
-							        let homeTag = new Map();
-							        homeTag.set("id", 20);
-							        homeTag.set("name", "Sport");
-							        homeTag.set("url", "/sport");
+									let homeTag = new Map();
+									homeTag.set("id", 20);
+									homeTag.set("name", "Sport");
+									homeTag.set("url", "/sport");
 
-							        const wrapperTagsRender2 = render(
-							            <Provider store={store}>
-							                <Tags
-							                    geoTag={geoTag}
-							                    homeTag={homeTag}
-							                />
-							            </Provider>
-							        );
+									const wrapperTagsRender2 = render(
+										<Provider store={store}>
+											<Tags
+												geoTag={geoTag}
+												homeTag={homeTag}
+											/>
+										</Provider>
+									);
 
-							        const wrapperTagsMount2 = mount(
-							            <Provider store={store}>
-							                <Tags
-							                    geoTag={geoTag}
-							                    homeTag={homeTag}
-							                />
-							            </Provider>
-							        );
+									const wrapperTagsMount2 = mount(
+									<Provider store={store}>
+											<Tags
+												geoTag={geoTag}
+												homeTag={homeTag}
+											/>
+										</Provider>
+									);
 
-							        const wrapperTagsShallow2 = shallow(
-							            <Provider store={store}>
-							                <Tags
-							                    geoTag={geoTag}
-							                    homeTag={homeTag}
-							                />
-							            </Provider>
-							        );
-							        expect(wrapperTagsRender2.find(".article__tags")).to.have.length(1);
-							        expect(wrapperTagsMount2.containsAnyMatchingElements([<a>Sport</a>, <a>Hilversum</a>])).to.equal(true);
-							        expect(wrapperTagsMount2.find(".article__tags").first().type()).to.equal("div");
-							        expect(wrapperTagsShallow2.props().homeTag).to.equal(homeTag);
-							    });
+									const wrapperTagsShallow2 = shallow(
+										<Provider store={store}>
+											<Tags
+												geoTag={geoTag}
+												homeTag={homeTag}
+											/>
+										</Provider>
+									);
+									expect(wrapperTagsRender2.find(".article__tags"))
+										.to.have.length(1);
+									expect(wrapperTagsMount2.containsAnyMatchingElements([<a>Sport</a>, <a>Hilversum</a>]))
+										.to.equal(true);
+									expect(wrapperTagsMount2.find(".article__tags").first().type())
+										.to.equal("div");
+									expect(wrapperTagsShallow2.props().homeTag)
+										.to.equal(homeTag);
+									});
 							});
-
 							```
 						</script>
 					</section>
@@ -406,7 +425,7 @@
 			            </Provider>
 			        );
 							```
-							<i>shallow</i> is a function used to test the a component as a unit, indipendently by its children behaviour
+							the <i>Provider</i> is the component used to feed the component with a valid store
 						</script>
 					</section>
 					<section data-markdown>
@@ -421,7 +440,7 @@
 			            </Provider>
 			        );
 							```
-							the <i>Provider</i> is the component used to feed the component with a valid store
+							<i>shallow</i> is a function used to test the a component as a unit, indipendently by its children behaviour
 						</script>
 					</section>
 					<section data-markdown>
@@ -439,73 +458,77 @@
 							const mockStore = configureStore(middlewares);
 
 							describe("Article Tags", () => {
-							    it("Geotag is rendered", () => {
-							        const store = mockStore({tagManagement: {}});
+								it("Geotag is rendered", () => {
+									const store = mockStore({tagManagement: {}});
 
-							        let geoTag = new Map();
-							        geoTag.set("id", 1);
-							        geoTag.set("name", "Hilversum");
-							        geoTag.set("url", "/hilversum");
+									let geoTag = new Map();
+									geoTag.set("id", 1);
+									geoTag.set("name", "Hilversum");
+									geoTag.set("url", "/hilversum");
 
-							        let homeTag = null;
+									let homeTag = null;
 
-							        const wrapperTags1 = render(
-							            <Provider store={store}>
-							                <Tags
-							                    geoTag={geoTag}
-							                    homeTag={homeTag}
-							                />
-							            </Provider>);
-							        expect(wrapperTags1.find(".article__tags")).to.have.length(1);
-							    });
+									const wrapperTags1 = render(
+										<Provider store={store}>
+											<Tags
+												geoTag={geoTag}
+												homeTag={homeTag}
+											/>
+										</Provider>);
+									expect(wrapperTags1.find(".article__tags"))
+										.to.have.length(1);
+								});
 
-							    it("Geotag and Hometag are rendered", () => {
-							        let userNotification = new Map();
-							        const store = mockStore({tagManagement: {}, userNotification: userNotification});
+								it("Geotag and Hometag are rendered", () => {
+									let userNotification = new Map();
+									const store = mockStore({tagManagement: {}, userNotification: userNotification});
 
-							        let geoTag = new Map();
-							        geoTag.set("id", 1);
-							        geoTag.set("name", "Hilversum");
-							        geoTag.set("url", "/hilversum");
+									let geoTag = new Map();
+									geoTag.set("id", 1);
+									geoTag.set("name", "Hilversum");
+									geoTag.set("url", "/hilversum");
 
-							        let homeTag = new Map();
-							        homeTag.set("id", 20);
-							        homeTag.set("name", "Sport");
-							        homeTag.set("url", "/sport");
+									let homeTag = new Map();
+									homeTag.set("id", 20);
+									homeTag.set("name", "Sport");
+									homeTag.set("url", "/sport");
 
-							        const wrapperTagsRender2 = render(
-							            <Provider store={store}>
-							                <Tags
-							                    geoTag={geoTag}
-							                    homeTag={homeTag}
-							                />
-							            </Provider>
-							        );
+									const wrapperTagsRender2 = render(
+										<Provider store={store}>
+											<Tags
+												geoTag={geoTag}
+												homeTag={homeTag}
+											/>
+										</Provider>
+									);
 
-							        const wrapperTagsMount2 = mount(
-							            <Provider store={store}>
-							                <Tags
-							                    geoTag={geoTag}
-							                    homeTag={homeTag}
-							                />
-							            </Provider>
-							        );
+									const wrapperTagsMount2 = mount(
+									<Provider store={store}>
+											<Tags
+												geoTag={geoTag}
+												homeTag={homeTag}
+											/>
+										</Provider>
+									);
 
-							        const wrapperTagsShallow2 = shallow(
-							            <Provider store={store}>
-							                <Tags
-							                    geoTag={geoTag}
-							                    homeTag={homeTag}
-							                />
-							            </Provider>
-							        );
-							        expect(wrapperTagsRender2.find(".article__tags")).to.have.length(1);
-							        expect(wrapperTagsMount2.containsAnyMatchingElements([<a>Sport</a>, <a>Hilversum</a>])).to.equal(true);
-							        expect(wrapperTagsMount2.find(".article__tags").first().type()).to.equal("div");
-							        expect(wrapperTagsShallow2.props().homeTag).to.equal(homeTag);
-							    });
+									const wrapperTagsShallow2 = shallow(
+										<Provider store={store}>
+											<Tags
+												geoTag={geoTag}
+												homeTag={homeTag}
+											/>
+										</Provider>
+									);
+									expect(wrapperTagsShallow2.props().homeTag)
+										.to.equal(homeTag);
+									});
+									expect(wrapperTagsRender2.find(".article__tags"))
+										.to.have.length(1);
+									expect(wrapperTagsMount2.containsAnyMatchingElements([<a>Sport</a>, <a>Hilversum</a>]))
+										.to.equal(true);
+									expect(wrapperTagsMount2.find(".article__tags").first().type())
+										.to.equal("div");
 							});
-
 							```
 						</script>
 					</section>
@@ -514,7 +537,9 @@
 				</section>
 
 				<section>
-					<h2>Make Tests<h2>
+					<h2>Conclusions</h2>
+					<p class="fragment">Make tests</p>
+					<p class="fragment">Find a balance with your deadlines</p>
 				</section>
 			</div>
 		</div>
