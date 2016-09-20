@@ -24,6 +24,13 @@
 					</p>
 				</section>
 
+				<!-- chi sono -->
+				<section>
+					<h2>Alessandro Rabitti</h2>
+					<p>HMC project</p>
+					<p>Frontender Developer</p>
+				</section>
+
 				<!-- agenda -->
 				<section>
 					<h2>Agenda</h2>
@@ -36,6 +43,10 @@
 				<section>
 					<h2>Enzyme</h2>
 					<p>React testing utility</p>
+					<p>Easy in its implementation</p>
+					<p>JQuery syntax-like selector of DOM elements</p>
+					<p>Offers different approach in its components rendering</p>
+					<p>Simulations of behaviour and events</p>
 					<small>https://github.com/airbnb/enzyme or http://airbnb.io/enzyme/</small>
 				</section>
 
@@ -44,6 +55,8 @@
 					<section>
 						<h2>Mocha</h2>
 						<p>Javascript testing framework</p>
+						<p>Highly configurable</p>
+						<p>Different style of DSL (domain specific language), as BDD, TDD ...
 						<p>It runs on Node.js or on the browser</p>
 						<p>Based on assertion libraries</p>
 						<small>https://mochajs.org/</small>
@@ -51,7 +64,8 @@
 
 					<section>
 						<h2>Chai</h2>
-						<p>Assertion library</p>
+						<p>Assertion simple library</p>
+						<p>Expressive language &amp; Readable style</p>
 						<p>Compatible with Node.js or browser</p>
 						<small>http://chaijs.com/</small>
 					</section>
@@ -59,6 +73,7 @@
 					<section>
 						<h2>Sinon</h2>
 						<p>Spies, Stubs, Mocks</p>
+						<p>Highly compatible with unit testing frameworks</p>
 						<small>http://sinonjs.org/</small>
 					</section>
 				</section>
@@ -141,7 +156,7 @@
 					<section data-markdown>
 
 						<script type="text/template">
-							## Mocha & Chai
+							## 1) Mocha & Chai
 							```
 							describe("Check testing process", function () {
 							    it("This should pass if true is equal to true", function () {
@@ -196,7 +211,7 @@
 				<section>
 					<section data-markdown>
 						<script type="text/template">
-							## Enzyme & Mocha & Chai
+							## 2) Enzyme & Mocha & Chai
 							```
 							import React from "react";
 							import {render, mount} from "enzyme";
@@ -313,7 +328,7 @@
 				<section>
 					<section data-markdown>
 						<script type="text/template">
-							## Enzyme & Mocha & Chai
+							## 3) Enzyme & Mocha & Chai
 							```
 							import React from "react";
 							import { render, mount, shallow } from "enzyme";
@@ -532,14 +547,81 @@
 							```
 						</script>
 					</section>
+				</section>
 
+				<!-- Example 4 -->
+				<section>
+					<section data-markdown>
 
+						<script type="text/template">
+							## 4) Enzyme & Mocha & Chai & Sinon
+							```
+							import React from "react";
+							import {shallow} from "enzyme";
+							import Button from "../../shared/components/shared/button";
+
+							describe("Button", () => {
+								it("Button click is triggered", () => {
+									const onClickButton = sinon.spy();
+
+									const wrapperButton = shallow(
+										<Button buttonText="Button" buttonSeparator={true} onClick={onClickButton}/>
+									);
+									wrapperButton.find("a").simulate("click");
+									expect(onClickButton.calledOnce).to.equal(true);
+								});
+							});
+							```
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							```
+							const onClickButton = sinon.spy();
+							```
+							<i>sinon.spy</i> set a spy on the button function - sinon
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```
+							expect(onClickButton.calledOnce).to.equal(true);
+							```
+							<i>calledOnce</i> is a boolean property of a spy function
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```
+							import React from "react";
+							import {shallow} from "enzyme";
+							import Button from "../../shared/components/shared/button";
+
+							describe("Button", () => {
+								it("Button click is triggered", () => {
+									const onClickButton = sinon.spy();
+
+									const wrapperButton = shallow(
+										<Button buttonText="Button" buttonSeparator={true} onClick={onClickButton}/>
+									);
+									wrapperButton.find("a").simulate("click");
+									expect(onClickButton.calledOnce).to.equal(true);
+								});
+							});
+							```
+						</script>
+					</section>
 				</section>
 
 				<section>
 					<h2>Conclusions</h2>
 					<p class="fragment">Make tests</p>
 					<p class="fragment">Find a balance with your deadlines</p>
+				</section>
+
+				<section>
+					<h2>Thank you very much</h2>
 				</section>
 			</div>
 		</div>
