@@ -73,6 +73,7 @@
 					<section>
 						<h2>Sinon</h2>
 						<p>Spies, Stubs, Mocks</p>
+						<p>Functions that check behaviour and
 						<p>Highly compatible with unit testing frameworks</p>
 						<small>http://sinonjs.org/</small>
 					</section>
@@ -81,6 +82,23 @@
 				<!-- Examples -->
 				<section>
 					<h2>Examples</h2>
+				</section>
+
+				<!-- Setup nodejs -->
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Setup node script
+							```
+							cross-env NODE_ENV=test
+							cross-env NODE_PATH=./app
+							mocha
+							--compilers js:babel-register
+							--require 'app/tests/support/setup.mocha.js'
+							--recursive 'app/tests/**/*.test.js'
+							```
+						</script>
+					</section>
 				</section>
 
 				<!-- Setup examples -->
@@ -130,23 +148,6 @@
 							global.navigator = global.window.navigator;
 							```
 							<i>jsdom</i> is a library to provide an HTML DOM to nodejs
-						</script>
-					</section>
-				</section>
-
-				<!-- Setup examples -->
-				<section>
-					<section data-markdown>
-						<script type="text/template">
-							## Setup node script
-							```
-							cross-env NODE_ENV=test
-							cross-env NODE_PATH=./app
-							mocha
-							--compilers js:babel-register
-							--require 'app/tests/support/setup.mocha.js'
-							--recursive 'app/tests/**/*.test.js'
-							```
 						</script>
 					</section>
 				</section>
